@@ -1,0 +1,10 @@
+api-out
+venv/
+venv_x/
+__pycache__/
+*.pyc
+*.egg-info/
+.gradio/
+.claude/
+.serena/cache/
+.serena/memories/

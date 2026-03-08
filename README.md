@@ -25,7 +25,7 @@ Text-to-Speech (TTS) ภาษาไทย — เครื่องมือส
 git clone https://github.com/VYNCX/F5-TTS-THAI.git
 cd F5-TTS-THAI
 python -m venv venv
-call venv/scripts/activate
+call venv/scripts/activate || source venv/bin/activate
 pip install git+https://github.com/VYNCX/F5-TTS-THAI.git
 
 #จำเป็นต้องติดตั้งเพื่อใช้งานได้มีประสิทธิภาพกับ GPU

@@ -1,0 +1,715 @@
+{
+  "info": {
+    "name": "F5-TTS Thai API",
+    "description": "F5-TTS Thai API Collection for testing all endpoints",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "{{base_url}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Check if the API server is running and model is loaded"
+      },
+      "response": []
+    },
+    {
+      "name": "Model Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/info",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "info"
+          ]
+        },
+        "description": "Get model information including device, sample rate, and model status"
+      },
+      "response": []
+    },
+    {
+      "name": "Text to Speech (Direct)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ref_audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n  \"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\",\n  \"gen_text\": \"พรุ่งนี้มีประชุมสำคัญ อย่าลืมเตรียมเอกสารให้เรียบร้อย\",\n  \"remove_silence\": true,\n  \"cross_fade_duration\": 0.15,\n  \"nfe_step\": 32,\n  \"speed\": 1.0,\n  \"cfg_strength\": 2.0,\n  \"max_chars\": 250,\n  \"seed\": -1,\n  \"no_ref_audio\": false,\n  \"return_spectrogram\": false,\n  \"return_format\": \"{{return_format}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tts"
+          ]
+        },
+        "description": "Generate speech using direct audio file path and reference text"
+      },
+      "response": []
+    },
+    {
+      "name": "Text to Speech (File Upload)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "ref_audio",
+              "type": "file",
+              "src": "/path/to/your/audio/file.wav"
+            },
+            {
+              "key": "ref_text",
+              "value": "ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น",
+              "type": "text"
+            },
+            {
+              "key": "gen_text",
+              "value": "พรุ่งนี้มีประชุมสำคัญ อย่าลืมเตรียมเอกสารให้เรียบร้อย",
+              "type": "text"
+            },
+            {
+              "key": "return_format",
+              "value": "{{return_format}}",
+              "type": "text"
+            },
+            {
+              "key": "nfe_step",
+              "value": "32",
+              "type": "text"
+            },
+            {
+              "key": "speed",
+              "value": "1.0",
+              "type": "text"
+            },
+            {
+              "key": "remove_silence",
+              "value": "true",
+              "type": "text"
+            },
+            {
+              "key": "return_spectrogram",
+              "value": "false",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/tts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tts"
+          ]
+        },
+        "description": "Generate speech using uploaded audio file"
+      },
+      "response": []
+    },
+    {
+      "name": "Text to Speech (Profile)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_name\": \"thai_speaker_1\",\n  \"gen_text\": \"วันนี้อากาศดีมาก เหมาะสำหรับไปเดินเล่นที่สวนสาธารณะ\",\n  \"remove_silence\": true,\n  \"cross_fade_duration\": 0.15,\n  \"nfe_step\": 32,\n  \"speed\": 1.0,\n  \"cfg_strength\": 2.0,\n  \"max_chars\": 250,\n  \"seed\": -1,\n  \"no_ref_audio\": false,\n  \"return_spectrogram\": false,\n  \"return_format\": \"{{return_format}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/tts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "tts"
+          ]
+        },
+        "description": "Generate speech using a saved profile"
+      },
+      "response": []
+    },
+    {
+      "name": "Multistyle TTS",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mode\": \"{{multistyle_mode}}\",\n  \"gen_text\": \"{{sample_multistyle_text}}\",\n  \"speech_types\": {\n    \"normal\": {\n      \"audio\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n      \"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\"\n    },\n    \"happy\": {\n      \"audio\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_2.wav\",\n      \"ref_text\": \"ฉันเดินทางไปเที่ยวที่จังหวัดเชียงใหม่ในช่วงฤดูหนาวเพื่อสัมผัสอากาศเย็นสบาย\"\n    },\n    \"sad\": {\n      \"audio\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n      \"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\"\n    }\n  },\n  \"remove_silence\": true,\n  \"cross_fade_duration\": 0.15,\n  \"nfe_step\": 32,\n  \"speed\": 1.0,\n  \"cfg_strength\": 2.0,\n  \"max_chars\": 250,\n  \"seed\": -1,\n  \"return_format\": \"{{return_format}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/multistyle",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "multistyle"
+          ]
+        },
+        "description": "Generate speech with multiple styles/emotions in a single text using Direct mode"
+      },
+      "response": []
+    },
+    {
+      "name": "Multistyle TTS (File Upload)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "mode",
+              "value": "file_upload",
+              "type": "text"
+            },
+            {
+              "key": "gen_text",
+              "value": "{{sample_multistyle_text}}",
+              "type": "text"
+            },
+            {
+              "key": "speech_types",
+              "value": "{\"normal\": {\"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\"}, \"happy\": {\"ref_text\": \"ฉันเดินทางไปเที่ยวที่จังหวัดเชียงใหม่ในช่วงฤดูหนาวเพื่อสัมผัสอากาศเย็นสบาย\"}, \"sad\": {\"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\"}}",
+              "type": "text"
+            },
+            {
+              "key": "audio_normal",
+              "type": "file",
+              "src": "/path/to/normal/audio.wav"
+            },
+            {
+              "key": "audio_happy",
+              "type": "file",
+              "src": "/path/to/happy/audio.wav"
+            },
+            {
+              "key": "audio_sad",
+              "type": "file",
+              "src": "/path/to/sad/audio.wav"
+            },
+            {
+              "key": "return_format",
+              "value": "{{return_format}}",
+              "type": "text"
+            },
+            {
+              "key": "nfe_step",
+              "value": "32",
+              "type": "text"
+            },
+            {
+              "key": "speed",
+              "value": "1.0",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/multistyle",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "multistyle"
+          ]
+        },
+        "description": "Generate speech with multiple styles using File Upload mode"
+      },
+      "response": []
+    },
+    {
+      "name": "Multistyle TTS (Profile)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mode\": \"profile\",\n  \"gen_text\": \"{{sample_multistyle_text}}\",\n  \"profile_emotions\": {\n    \"normal\": \"{{sample_emotion}}\",\n    \"happy\": \"happy\",\n    \"sad\": \"sad\"\n  },\n  \"remove_silence\": true,\n  \"cross_fade_duration\": 0.15,\n  \"nfe_step\": 32,\n  \"speed\": 1.0,\n  \"cfg_strength\": 2.0,\n  \"max_chars\": 250,\n  \"seed\": -1,\n  \"return_format\": \"{{return_format}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/multistyle",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "multistyle"
+          ]
+        },
+        "description": "Generate speech with multiple styles using Profile mode with emotions"
+      },
+      "response": []
+    },
+    {
+      "name": "Audio Transcription",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n  \"translate\": false,\n  \"model\": \"{{whisper_model}}\",\n  \"compute_type\": \"auto\",\n  \"target_language\": \"th\",\n  \"source_language\": \"th\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/transcribe",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Transcribe audio file to text using Whisper"
+      },
+      "response": []
+    },
+    {
+      "name": "Audio Transcription (File Upload)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "audio_file",
+              "type": "file",
+              "src": "/path/to/your/audio/file.wav"
+            },
+            {
+              "key": "translate",
+              "value": "false",
+              "type": "text"
+            },
+            {
+              "key": "model",
+              "value": "{{whisper_model}}",
+              "type": "text"
+            },
+            {
+              "key": "compute_type",
+              "value": "auto",
+              "type": "text"
+            },
+            {
+              "key": "source_language",
+              "value": "th",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/transcribe",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Transcribe uploaded audio file to text using Whisper"
+      },
+      "response": []
+    },
+    {
+      "name": "Audio Transcription with Translation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n  \"translate\": true,\n  \"model\": \"{{whisper_model}}\",\n  \"compute_type\": \"auto\",\n  \"target_language\": \"en\",\n  \"source_language\": \"th\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/transcribe",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Transcribe and translate audio file"
+      },
+      "response": []
+    },
+    {
+      "name": "List Profiles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Get list of all available voice profiles"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Profile Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/profiles/thai_speaker_1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles",
+            "thai_speaker_1"
+          ]
+        },
+        "description": "Get detailed information about a specific profile"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_name\": \"thai_speaker_1\",\n  \"ref_audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n  \"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\",\n  \"description\": \"Thai speaker with calm and clear voice\",\n  \"emotion\": \"{{sample_emotion}}\",\n  \"overwrite\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Create a new voice profile"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Profile (File Upload)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "profile_name",
+              "value": "thai_speaker_uploaded",
+              "type": "text"
+            },
+            {
+              "key": "ref_audio",
+              "type": "file",
+              "src": "/path/to/your/audio/file.wav"
+            },
+            {
+              "key": "ref_text",
+              "value": "ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น",
+              "type": "text"
+            },
+            {
+              "key": "description",
+              "value": "Thai speaker profile created from uploaded file",
+              "type": "text"
+            },
+            {
+              "key": "emotion",
+              "value": "{{sample_emotion}}",
+              "type": "text"
+            },
+            {
+              "key": "overwrite",
+              "value": "true",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Create a new voice profile from uploaded audio file"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Profile (Female Voice)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_name\": \"thai_female_1\",\n  \"ref_audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_2.wav\",\n  \"ref_text\": \"ฉันเดินทางไปเที่ยวที่จังหวัดเชียงใหม่ในช่วงฤดูหนาวเพื่อสัมผัสอากาศเย็นสบาย\",\n  \"description\": \"Thai female speaker with warm voice\",\n  \"emotion\": \"happy\",\n  \"overwrite\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Create a new female voice profile"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Profile",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/profiles/thai_speaker_1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles",
+            "thai_speaker_1"
+          ]
+        },
+        "description": "Delete a specific voice profile"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Profile Emotions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/profiles/emotions",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles",
+            "emotions"
+          ]
+        },
+        "description": "Get all profiles grouped by emotion"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Profiles by Emotion",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/profiles/emotions/{{sample_emotion}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles",
+            "emotions",
+            "{{sample_emotion}}"
+          ]
+        },
+        "description": "Get profiles filtered by specific emotion"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Multiple Emotion Profiles",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_name\": \"thai_speaker_happy\",\n  \"ref_audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_2.wav\",\n  \"ref_text\": \"ฉันเดินทางไปเที่ยวที่จังหวัดเชียงใหม่ในช่วงฤดูหนาวเพื่อสัมผัสอากาศเย็นสบาย\",\n  \"description\": \"Thai speaker with happy and enthusiastic voice\",\n  \"emotion\": \"happy\",\n  \"overwrite\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Create profile with happy emotion"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Sad Emotion Profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"profile_name\": \"thai_speaker_sad\",\n  \"ref_audio_path\": \"./src/f5_tts/infer/examples/thai_examples/ref_gen_1.wav\",\n  \"ref_text\": \"ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น\",\n  \"description\": \"Thai speaker with sad and melancholic voice\",\n  \"emotion\": \"sad\",\n  \"overwrite\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/profiles",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "profiles"
+          ]
+        },
+        "description": "Create profile with sad emotion"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set default values if not already set in environment",
+          "if (!pm.environment.get('base_url')) {",
+          "    pm.environment.set('base_url', 'http://localhost:4000');",
+          "}",
+          "if (!pm.environment.get('whisper_model')) {",
+          "    pm.environment.set('whisper_model', 'large-v3-turbo');",
+          "}",
+          "if (!pm.environment.get('sample_emotion')) {",
+          "    pm.environment.set('sample_emotion', 'normal');",
+          "}",
+          "if (!pm.environment.get('return_format')) {",
+          "    pm.environment.set('return_format', 'audio_base64');",
+          "}",
+          "if (!pm.environment.get('multistyle_mode')) {",
+          "    pm.environment.set('multistyle_mode', 'direct');",
+          "}",
+          "if (!pm.environment.get('sample_multistyle_text')) {",
+          "    pm.environment.set('sample_multistyle_text', '{normal} สวัสดีครับ {happy} วันนี้ผมมีความสุขมาก {sad} แต่บางทีก็เศร้า');",
+          "}",
+          "if (!pm.environment.get('sample_multiline_text')) {",
+          "    pm.environment.set('sample_multiline_text', 'สวัสดีครับ\\nวันนี้อากาศดีมาก\\nเหมาะสำหรับไปเดินเล่นที่สวนสาธารณะ');",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Basic response validation",
+          "pm.test('Status code is 200 or 201', function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+          "});",
+          "",
+          "// Check if response is JSON (except for file downloads)",
+          "pm.test('Response is JSON or file', function () {",
+          "    const contentType = pm.response.headers.get('Content-Type');",
+          "    pm.expect(contentType).to.satisfy(function(type) {",
+          "        return type.includes('application/json') || type.includes('audio/wav');",
+          "    });",
+          "});",
+          "",
+          "// Check if JSON response has success field",
+          "if (pm.response.headers.get('Content-Type').includes('application/json')) {",
+          "    pm.test('Response has success field', function () {",
+          "        const jsonData = pm.response.json();",
+          "        pm.expect(jsonData).to.have.property('success');",
+          "    });",
+          "    ",
+          "    // Log response for debugging",
+          "    pm.test('Log response for debugging', function () {",
+          "        console.log('Response:', pm.response.json());",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ]
+}

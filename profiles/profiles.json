@@ -1,0 +1,23 @@
+{
+  "thai_speaker_[โน]": {
+    "audio_path": "./profiles/thai_speaker_[โน].wav",
+    "ref_text": "สวัสดี วันนี้เป็นวันจันทร์",
+    "description": "Thai speaker profile created from uploaded file",
+    "emotion": "ปกติ",
+    "created_at": "2025-07-13T21:02:56.492029"
+  },
+  "thai_speaker_1": {
+    "audio_path": "./profiles/thai_speaker_1.wav",
+    "ref_text": "ได้รับข่าวคราวของเราที่จะหาที่มันเป็นไปที่จะจัดขึ้น",
+    "description": "Thai speaker with calm and clear voice",
+    "emotion": "normal",
+    "created_at": "2025-11-28T21:13:59.294529"
+  },
+  "thai_speaker_[แอพ]": {
+    "audio_path": "./profiles/thai_speaker_[แอพ].wav",
+    "ref_text": "สวัสดี วันนี้เป็นวันจันทร์",
+    "description": "Thai speaker with calm and clear voice",
+    "emotion": "normal",
+    "created_at": "2025-11-28T22:36:44.868129"
+  }
+}
